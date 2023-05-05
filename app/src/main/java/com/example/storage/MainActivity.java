@@ -9,19 +9,52 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String darkTheme = "Dark";
     public static final String lightTheme = "Light";
+
+    public EditText editText;
+    public Button button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setSavedTheme();
 
+
+
+        editText = (EditText) findViewById(R.id.username);
+        button = (Button) findViewById(R.id.btnSave);
+
+        button.setOnClickListener(this);
+
+        setSavedTheme();
+        setUserName();
     }
 
+    private void setUserName() {
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        String username = sharedPref.getString("username", "");
+        editText.setText(username);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.btnSave){
+            String name = editText.getText().toString();
+            SharedPreferences sharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("username",name);
+            editor.apply();
+            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

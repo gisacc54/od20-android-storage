@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Storage</string>
     <string name="theme">Theme</string>
+    <string name="username">Username</string>
+    <string name="enter_username">Enter Username</string>
+    <string name="save_data">Save Data</string>
 </resources>
