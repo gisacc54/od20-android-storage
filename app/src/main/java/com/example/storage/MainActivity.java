@@ -3,8 +3,11 @@ package com.example.storage;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,46 +17,43 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.storage.adapter.NoteAdapter;
+import com.example.storage.model.Note;
+
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String darkTheme = "Dark";
     public static final String lightTheme = "Light";
-
-    public EditText editText;
-    public Button button;
+    public RecyclerView noteRecycleView;
+    public ArrayList<Note> notes = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        noteRecycleView = findViewById(R.id.noteRecycleView);
 
+        getNotes();
 
-        editText = (EditText) findViewById(R.id.username);
-        button = (Button) findViewById(R.id.btnSave);
-
-        button.setOnClickListener(this);
+        NoteAdapter adapter = new NoteAdapter(this,notes);
+        noteRecycleView.setHasFixedSize(true);
+        noteRecycleView.setLayoutManager(new LinearLayoutManager(this));
+        noteRecycleView.setAdapter(adapter);
 
         setSavedTheme();
-        setUserName();
     }
 
-    private void setUserName() {
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        String username = sharedPref.getString("username", "");
-        editText.setText(username);
-    }
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.btnSave){
-            String name = editText.getText().toString();
-            SharedPreferences sharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("username",name);
-            editor.apply();
-            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
 
-        }
+    }
+
+    public void getNotes(){
+        notes.add(new Note("Title 1","Note Body"));
+        notes.add(new Note("Title 2","Note Body"));
     }
 
     @Override
@@ -72,6 +72,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_theme_light:
                 changeTheme(darkTheme);
                 savaTheme(darkTheme);
+                return true;
+            case R.id.btn_create_note:
+                Toast.makeText(this, "Create Note", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this,CreateNoteActivity.class);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);

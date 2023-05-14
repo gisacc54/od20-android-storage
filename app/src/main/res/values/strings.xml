@@ -4,4 +4,11 @@
     <string name="username">Username</string>
     <string name="enter_username">Enter Username</string>
     <string name="save_data">Save Data</string>
+    <string name="create_note">Create Note</string>
+    <string name="note_title">Note Title</string>
+    <string name="enter_note_title">Enter Note Title</string>
+    <string name="enter_note_body">Enter Note Body</string>
+    <string name="note_body">Note Body</string>
+    <string name="share_note">Share Note</string>
+    <string name="save_note">Save Note</string>
 </resources>
