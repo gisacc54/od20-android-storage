@@ -3,8 +3,10 @@ package com.example.storage;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,10 +21,11 @@ import android.widget.Toast;
 
 import com.example.storage.adapter.NoteAdapter;
 import com.example.storage.model.Note;
+import com.example.storage.repository.DatabaseHelper;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,NoteAdapter.OnClickListener {
 
     public static final String darkTheme = "Dark";
     public static final String lightTheme = "Light";
@@ -38,9 +41,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getNotes();
 
         NoteAdapter adapter = new NoteAdapter(this,notes);
+
+        adapter.setOnClickListener(this);
+
         noteRecycleView.setHasFixedSize(true);
-        noteRecycleView.setLayoutManager(new LinearLayoutManager(this));
+        noteRecycleView.setLayoutManager(new StaggeredGridLayoutManager(2,LinearLayoutManager.VERTICAL));
         noteRecycleView.setAdapter(adapter);
+
 
         setSavedTheme();
     }
@@ -50,10 +57,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
 
     }
+    @Override
+    public void onClick(int position, Note note) {
+        Toast.makeText(this, "Position: "+position+" id: "+note.getId(), Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(this,UpdateNoteActivity.class);
+        intent.putExtra("id",note.getId());
+        intent.putExtra("title",note.getTitle());
+        intent.putExtra("body",note.getBody());
+        startActivity(intent);
+
+    }
 
     public void getNotes(){
-        notes.add(new Note("Title 1","Note Body"));
-        notes.add(new Note("Title 2","Note Body"));
+        DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+        notes = db.getAllNotes();
     }
 
     @Override

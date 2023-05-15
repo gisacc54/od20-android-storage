@@ -11,4 +11,5 @@
     <string name="note_body">Note Body</string>
     <string name="share_note">Share Note</string>
     <string name="save_note">Save Note</string>
+    <string name="delete_note">Delete Note</string>
 </resources>

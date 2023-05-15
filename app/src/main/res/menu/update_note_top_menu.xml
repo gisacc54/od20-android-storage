@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/btn_share_note"
+        android:title="@string/share_note"
+        android:enabled="true"
+        android:icon="@drawable/share"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/btn_save_note"
+        android:title="@string/save_note"
+        android:enabled="true"
+        android:icon="@drawable/content_save"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/btn_delete_note"
+        android:title="@string/delete_note"
+        android:enabled="true"
+        android:icon="@drawable/delete"
+        app:showAsAction="always"/>
+</menu>

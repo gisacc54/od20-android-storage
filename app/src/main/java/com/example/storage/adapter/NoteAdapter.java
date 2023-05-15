@@ -18,6 +18,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder>{
 
     ArrayList<Note> notes;
     Context ctx;
+    private OnClickListener onClickListener;
     public NoteAdapter(Context ctx, ArrayList<Note> notes) {
         this.ctx = ctx;
         this.notes = notes;
@@ -33,10 +34,25 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
+        Note note = notes.get(position);
         holder.tvNoteTitle.setText(notes.get(position).getTitle());
         holder.tvNoteBody.setText(notes.get(position).getBody());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickListener.onClick(position,note);
+            }
+        });
     }
 
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
+    public interface OnClickListener {
+        void onClick(int position, Note model);
+    }
     @Override
     public int getItemCount() {
         return notes.size();
